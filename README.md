@@ -1,54 +1,115 @@
 # Business Insight API
 
-Enterprise-style Spring Boot backend designed to demonstrate
-real-world backend architecture, security, and infrastructure practices.
+A production-oriented backend application designed to support
+ERP-based reporting, data extraction, and business intelligence workflows.
+
+The system allows data engineers to define external data sources and parameterized SQL query templates,
+while end users can later build visualizations on top of those datasets.
+
+---
 
 ## 🚀 Tech Stack
 
 - Java 17
 - Spring Boot 3
-- Spring Security
+- Spring Security (JWT, stateless)
 - PostgreSQL
-- Flyway
-- Docker
+- Flyway (database migrations)
 - Maven
+- Docker (local database)
 
 ---
 
-## 🧱 Architecture
+## 🔐 Authentication & Security
 
-This project follows a layered structure:
+- JWT-based stateless authentication
+- BCrypt password hashing
+- Custom authentication filter (Bearer token)
+- Global exception handling with standardized JSON error responses
+- SELECT-only enforcement for query templates (MVP guardrail)
 
-- `api` → Controllers & DTOs
-- `application` → Business logic / Use cases
-- `domain` → Core entities & repository interfaces
+All endpoints except `/api/auth/**` require authentication.
+
+---
+
+## 🧱 Architecture Overview
+
+The project follows a layered architecture:
+
+- `api` → REST controllers & DTOs
+- `application` → Business services
+- `domain` → Core entities & repositories
 - `infrastructure` → Security & configuration
-- `common` → Shared components
+- `common` → Shared components & error handling
 
-Designed with maintainability and scalability in mind.
+Insight module structure:
 
----
-
-## 🔐 Authentication (Work in Progress)
-
-- User registration with BCrypt password hashing
-- JWT authentication (planned)
-- Role-based access control (planned)
+- DataSource → Represents an external ERP connection definition
+- QueryTemplate → Parameterized, SELECT-only SQL query definitions
+- (Upcoming) QueryRun & DatasetSnapshot → Execution and persistence layer
 
 ---
 
-## 🐳 Run Locally
+## 🏢 Insight Module (MVP Scope)
 
-### 1️⃣ Start PostgreSQL
+### Data Sources
 
-```bash
+Represents an external ERP connection configuration.
+
+Example connection JSON:
+
+```json
+{
+  "host": "10.0.0.10",
+  "port": 1433,
+  "database": "ERP",
+  "username": "readonly_user",
+  "secretRef": "env:ERP_PASSWORD"
+}
+```
+### Query Templates
+
+Parameterized SQL definitions restricted to SELECT queries only.
+
+Example parameters:
+
+```
+[
+  { "name": "dateFrom", "type": "date", "required": true },
+  { "name": "dateTo", "type": "date", "required": true }
+]
+```
+Example output schema:
+
+```
+[
+  { "name": "date", "type": "date" },
+  { "name": "amount", "type": "decimal" },
+  { "name": "currency", "type": "string" }
+]
+```
+## 🐳 Running Locally
+
+### 1. Start PostgreSQL
+
+```
 docker compose up -d
 ```
-### 2️⃣ Run Spring Boot application
-```bash
+## 2. Set JWT Secret
+
+Linux/macOS:
+```
+export JWT_SECRET=your_long_random_secret_here
+```
+Windows:
+```
+$env:JWT_SECRET="your_long_random_secret_here"
+```
+### 3. Run the application
+```
 ./mvnw spring-boot:run
 ```
-### Application will be available at:
-```bash
+Application runs at:
+```
 http://localhost:8080
 ```
