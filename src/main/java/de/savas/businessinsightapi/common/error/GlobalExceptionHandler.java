@@ -88,7 +88,7 @@ public class GlobalExceptionHandler {
     }
 
     private String formatFieldError(FieldError fe) {
-        // example: "email: must be a well-formed email address"
+        // example: "username: must be a well-formed username address"
         return fe.getField() + ": " + (fe.getDefaultMessage() == null ? "invalid" : fe.getDefaultMessage());
     }
 }

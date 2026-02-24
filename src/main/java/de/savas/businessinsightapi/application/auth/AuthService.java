@@ -23,25 +23,25 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public void register(String email, String password) {
+    public void register(String email, String username, String password) {
 
         if (userRepository.findByEmail(email).isPresent()) {
             throw new BadRequestException("Email already registered");
         }
 
         String hashed = passwordEncoder.encode(password);
-        User user = new User(email, hashed);
+        User user = new User(email, username, hashed);
         userRepository.save(user);
     }
 
-    public String login(String email, String password) {
-        User user = userRepository.findByEmail(email)
+    public String login(String username, String password) {
+        User user = userRepository.findByUsername((username))
                 .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
 
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
             throw new IllegalArgumentException("Invalid credentials");
         }
 
-        return jwtService.generateAccessToken(user.getEmail());
+        return jwtService.generateAccessToken(user);
     }
 }
