@@ -4,7 +4,7 @@ create table if not exists query_run (
     query_template_id bigint not null references query_template(id),
 
     status varchar(30) not null, -- SUCCESS, FAILED
-    requested_by varchar(120),   -- MVP: username/email later from JWT
+    requested_by varchar(120),   -- MVP: username/username later from JWT
 
     started_at timestamptz not null default now(),
     finished_at timestamptz,

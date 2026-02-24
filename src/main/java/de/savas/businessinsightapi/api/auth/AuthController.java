@@ -16,12 +16,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public void register(@Valid @RequestBody RegisterRequest request) {
-        authService.register(request.email(), request.password());
+        authService.register(request.email(), request.username(),request.password());
     }
 
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request) {
-        String token = authService.login(request.email(), request.password());
+        String token = authService.login(request.username(), request.password());
         return new LoginResponse(token);
     }
 }
