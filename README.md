@@ -88,6 +88,7 @@ Example output schema:
   { "name": "currency", "type": "string" }
 ]
 ```
+---
 ## 🐳 Running Locally
 
 ### 1. Start PostgreSQL
@@ -113,3 +114,4 @@ Application runs at:
 ```
 http://localhost:8080
 ```
+---

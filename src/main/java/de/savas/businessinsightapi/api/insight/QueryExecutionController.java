@@ -2,6 +2,7 @@ package de.savas.businessinsightapi.api.insight;
 
 import de.savas.businessinsightapi.application.insight.QueryExecutionService;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -30,6 +31,7 @@ public class QueryExecutionController {
     ) {}
 
     @PostMapping("/execute")
+    @PreAuthorize("hasAuthority('INSIGHT_QUERY_EXECUTE')")
     public ExecuteResponse execute(@RequestParam Long orgId, @RequestBody ExecuteRequest req) {
         boolean takeSnapshot = req.snapshot() != null && req.snapshot();
         var result = service.execute(orgId, req.queryTemplateId(), req.params(), takeSnapshot);
