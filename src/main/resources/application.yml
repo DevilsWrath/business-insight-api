@@ -27,5 +27,3 @@ app:
       secret: ${JWT_SECRET}
       issuer: business-insight-api
       access-token-minutes: 30
-
-

@@ -11,6 +11,7 @@ import de.savas.businessinsightapi.domain.insight.run.QueryRun;
 import de.savas.businessinsightapi.domain.insight.run.QueryRunRepository;
 import de.savas.businessinsightapi.domain.insight.snapshot.DatasetSnapshot;
 import de.savas.businessinsightapi.domain.insight.snapshot.DatasetSnapshotRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
