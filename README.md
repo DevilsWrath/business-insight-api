@@ -115,3 +115,22 @@ Application runs at:
 http://localhost:8080
 ```
 ---
+
+## RBAC Method Security (Roadmap Step)
+
+- `@EnableMethodSecurity` is enabled.
+- JWT access token includes `perms` claim (permission codes).
+- `JwtAuthenticationFilter` maps `perms` claim to Spring authorities.
+- Insight endpoints are guarded with `@PreAuthorize`.
+
+## Admin RBAC API (MVP)
+
+Base path: `/api/admin/rbac`
+
+- `GET /permissions` requires `RBAC_PERMISSION_MANAGE`
+- `GET /roles` requires `RBAC_ROLE_MANAGE`
+- `POST /roles` requires `RBAC_ROLE_MANAGE`
+- `PUT /roles/{id}` requires `RBAC_ROLE_MANAGE`
+- `PUT /roles/{id}/permissions` requires `RBAC_ROLE_MANAGE`
+- `GET /users?query=...` requires `RBAC_USER_ROLE_ASSIGN`
+- `PUT /users/{id}/roles` requires `RBAC_USER_ROLE_ASSIGN`

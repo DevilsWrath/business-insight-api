@@ -38,7 +38,16 @@ public class Role {
     public String getDescription() { return description; }
     public Set<Permission> getPermissions() { return permissions; }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void addPermission(Permission permission) {
         this.permissions.add(permission);
+    }
+
+    public void replacePermissions(Set<Permission> permissions) {
+        this.permissions.clear();
+        this.permissions.addAll(permissions);
     }
 }
